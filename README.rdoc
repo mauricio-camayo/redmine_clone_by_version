@@ -1,0 +1,21 @@
+= redmine_clone_by_version
+
+During test, we use to clone the test issues in order to confirm regresion. 
+This plugin helps to clone from a given version (test) to the current version to multiple users
+
+= Installation
+
+To install the plugin, execute the following commands from the root of your Redmine directory:
+
+cd plugins  
+
+git clone git://github.com/mauricio-camayo/redmine_clone_by_version
+
+bundle install  
+
+rake redmine:plugins:migrate RAILS_ENV=production
+
+
+More information on installing Redmine plugins can be found at redmine.org.
+
+After the plugin is installed you will need to restart Redmine for the plugin to be available.

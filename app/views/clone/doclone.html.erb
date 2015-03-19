@@ -1,0 +1,30 @@
+<%=content_tag(:h2,l(:plugin_name)) %>
+<%= javascript_include_tag '/javascripts/select_list_move.js' %>
+
+<%=  %>
+<div class="autoscroll">
+      <table class="list issues ">
+          <thead>
+              <tr>
+                  <th class="checkbox hide-when-print">
+                      <%= link_to image_tag('toggle_check.png'), {},
+                        :onclick => 'toggleIssuesSelection(this); return false;',
+                        :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+                  </th>
+                  <th>#</th>
+                  <th><%= l(:subject) %></th>
+                  <th><%= l(:assignee) %></th>
+              </tr>
+          </thead>
+          <tbody>
+              <% @created_issues.each do |issue| -%>
+                <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> ">
+                    <td class="checkbox hide-when-print"><%= check_box_tag("issue_ids[]", issue.id, false, :id => nil) %></td>
+                    <td ><%= link_to issue.id, issue %> </td>
+                    <td ><%= link_to issue.subject, issue %> </td>
+                    <td ><%= link_to issue.assigned_to, issue.assigned_to %> </td>
+                </tr>
+              <% end %>
+          </tbody>
+      </table>
+  </div>

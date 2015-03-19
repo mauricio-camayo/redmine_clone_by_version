@@ -1,0 +1,41 @@
+
+<%= content_tag(:h1, l(:clone_version_settings)) %>
+
+<span id="target_version">
+    <span>
+        <%= content_tag(:h2, l(:label_target_version_title)) %>
+        <p>
+            <%= content_tag(:label, l(:label_target_version)) %>
+            <%= select("settings[target_version]", "", 
+              Version.all.collect {|v| [v.name, v.id]}, 
+              selected: @settings["target_version"]) %>
+        </p>
+    </span>
+    <hr>
+</span>
+
+<span id="new_status">
+    <span>
+        <%= content_tag(:h2, l(:label_new_status_title)) %>
+        <p>
+            <%= content_tag(:label, l(:label_new_status)) %>
+            <%= select("settings[new_status]", "", 
+              IssueStatus.all.collect {|v| [v.name, v.id]}, 
+              selected: @settings["new_status"]) %>
+        </p>
+    </span>
+    <hr>
+</span>
+
+<span id="user_group">
+    <span>
+        <%= content_tag(:h2, l(:label_group_title)) %>
+        <p>
+            <%= content_tag(:label, l(:label_group)) %>
+            <%= select("settings[group]", "", 
+              Group.all.collect {|v| [v.name, v.id]}, 
+              selected: @settings["group"]) %>
+        </p>
+    </span>
+    <hr>
+</span>
