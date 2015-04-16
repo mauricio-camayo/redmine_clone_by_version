@@ -2,23 +2,24 @@
 <%= javascript_include_tag '/javascripts/select_list_move.js' %>
 
 
-<%= form_tag({controller: "clone", action: "doclone"}) do -%>
-  <%= hidden_field_tag(:project_id, @project) %>
+<%= form_tag({:controller => "clone", :action => "index", :project_id => @project }, :method => :get, :id => 'query_form') do %>
+  <%= hidden_field_tag 'set_filter', '1' %>
+
   <div class="autoscroll">
-    <span>
-        <%= content_tag(:h2, l(:label_target_version_title)) %>
-        <p>
-            <%= content_tag(:label, l(:label_target_version_to)) %>
-            <%= select("target_version", "", 
-              Version.all.collect {|v| [v.name, v.id]}, 
-              ) %>
-        </p>
-    </span>
-    <hr>
+      <span>
+          <%= content_tag(:h2, l(:label_target_version_title)) %>
+          <p>
+              <%= content_tag(:label, l(:label_target_version_to)) %>
+              <%= select("target_version", "", 
+                Version.all.collect {|v| [v.name, v.id]}, 
+                ) %>
+          </p>
+      </span>
+      <hr>
   </div>
   <div class="autoscroll">
       <span><%= l(:users) %></span>
-       <table class="list users ">
+      <table class="list users ">
           <thead>
               <tr>
                   <th class="checkbox hide-when-print">
@@ -40,16 +41,25 @@
       </table>
   </div>
 
-  <%#= hidden_field_tag 'back_url', url_for(params), :id => nil %>
   <div class="autoscroll">
       <span><%= l(:issues) %></span>
+      <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+          <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+          <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+              <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+          </div>
+      </fieldset>
+      <p class="buttons">
+          <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+          <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+      </p>
       <table class="list issues ">
           <thead>
               <tr>
                   <th class="checkbox hide-when-print">
                       <%= link_to image_tag('toggle_check.png'), {},
-                        :onclick => 'toggleIssuesSelection(this); return false;',
-                        :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+                              :onclick => 'toggleIssuesSelection(this); return false;',
+                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
                   </th>
                   <th>#</th>
                   <th><%= l(:subject) %></th>
@@ -66,5 +76,5 @@
           </tbody>
       </table>
   </div>
-  <%= submit_tag(l(:send)) %>
+  <%= submit_tag(l(:send), :name => 'commit', :value => "doclone") %>
 <% end -%>

@@ -18,4 +18,6 @@ en:
   username: "User Name"
   users: "Select Users to Clone"
   issues: "Select Issues to Clone"
+  issues_cloned: " Issues cloned"
+  selection_error: "You must select at least one user and one issue to clone"
   generated_issues: "Generated Issues"
