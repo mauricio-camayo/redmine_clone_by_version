@@ -16,7 +16,7 @@ class CloneController < ApplicationController
   include IssuesHelper
   
   def index
-#    javascript_include_tag('context_menu')
+    #    javascript_include_tag('context_menu')
       
     @project = Project.find(params[:project_id])
     retrieve_query
@@ -48,6 +48,20 @@ class CloneController < ApplicationController
             clone.closed_on = ""
             clone.author = User.current
             clone.fixed_version = Version.find(params["target_version"].at(0).to_i)
+            clone.save
+            clone.relations_from ||= []
+            for j in issue.relations_from
+              related = IssueRelation.find(j).dup
+              related.issue_from_id = clone.id
+              related.save
+              clone.relations_from << related
+            end
+            for j in issue.relations_to
+              related = IssueRelation.find(j).dup
+              related.issue_to_id = clone.id
+              related.save
+              clone.relations_to << related
+            end
             clone.save
             @created_issues << clone
           end
